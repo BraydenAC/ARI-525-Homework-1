@@ -8,7 +8,7 @@ from tqdm import tqdm
 import numpy as np
 nltk.download('punkt_tab')
 
-#Import documents in bag-of-words format
+#Import documents
 tolstoy_file = pd.read_csv("BoW_Formatting/BoW_Tolstoy.csv", index_col=0)
 tolstoy_file = tolstoy_file.loc[:, ~tolstoy_file.columns.str.contains('Unnamed')]
 wells_file = pd.read_csv("BoW_Formatting/BoW_HGWells.csv", index_col=0)
