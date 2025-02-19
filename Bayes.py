@@ -43,6 +43,13 @@ for token in wells_file.index:
 print(f"Tolstoy: {total_tokens[0]}")
 print(f"Wells: {total_tokens[1]}")
 
+print("Tolstoy doc average Tokens")
+tolstoy_doc_token_counts = tolstoy_file.sum()
+print(sum(tolstoy_doc_token_counts) / tolstoy_file.shape[1])
+print("Wells doc average Tokens")
+wells_doc_token_counts = wells_file.sum()
+print(sum(wells_doc_token_counts) / wells_file.shape[1])
+
 #Initialize Log-likelihood defaultdicts and vocab_count
 log_likelihood = [collections.defaultdict(float), collections.defaultdict(float)]
 vocab_count = len(vocab)
