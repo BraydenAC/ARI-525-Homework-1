@@ -4,8 +4,6 @@ import nltk
 import pandas as pd
 import math
 import collections
-from tqdm import tqdm
-import numpy as np
 nltk.download('punkt_tab')
 
 #Import documents
@@ -42,6 +40,8 @@ for token in wells_file.index:
     class_dict[1][token] = wells_file.loc[token].sum()
     total_tokens[1] += token_sum
 
+print(f"Tolstoy: {total_tokens[0]}")
+print(f"Wells: {total_tokens[1]}")
 
 #Initialize Log-likelihood defaultdicts and vocab_count
 log_likelihood = [collections.defaultdict(float), collections.defaultdict(float)]

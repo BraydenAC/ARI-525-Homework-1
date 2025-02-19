@@ -1,6 +1,5 @@
 import os
 import collections
-import pandas as pd
 from gensim.corpora import Dictionary
 from scipy import sparse
 import re
@@ -11,11 +10,9 @@ import pyLDAvis.gensim
 from gensim.models import LdaModel
 from gensim.matutils import Sparse2Corpus
 
-#WARNING: This is the old version of my LDA model.  Please switch to newLDA.py
-
 #DISCLAIMER: Certain chunks of code in this program were made by chatGPT
 
-def preprocess_text(inputString, lowercase, lemma, cleanPunctuation):
+def preprocess_text(inputString, lowercase, lemma, cleanPunctuation, stopword):
     newText = inputString
     if lowercase:
         #Do Lowercasing
@@ -27,6 +24,14 @@ def preprocess_text(inputString, lowercase, lemma, cleanPunctuation):
         #Stores each line from input string as a tokenized array form of the original
         tokenizedString.append(line.split())
     newText = tokenizedString
+
+    #Stopword Removal
+    if stopword:
+        #Load external stopword list
+        mystops = stopwords.words('english')
+        #From class colab, apply stopwords and tokenize
+        mystops = set(mystops)
+        newText = [[tok for tok in row if tok not in mystops] for row in newText]
 
     #Lemmatizer
     if lemma:
@@ -56,7 +61,7 @@ for file_name in files:
 
     #Preprocess the text: make sure to change settings here with booleans
     print(f"processing {file_name}...")
-    processed_chapter = preprocess_text(stringInput, lowercase=True, lemma=True, cleanPunctuation=True)
+    processed_chapter = preprocess_text(stringInput, lowercase=True, lemma=True, cleanPunctuation=True, stopword=True)
 
     #convert the chapter into a default dictionary of tokens and their counts like in homework 0
     token_list = collections.defaultdict(int)
@@ -115,4 +120,4 @@ lda_model = LdaModel(corpus=corpus, num_topics=10, id2word=dictionary)
 
 #Display Results
 prepared_data = pyLDAvis.gensim.prepare( lda_model, corpus, dictionary, mds='mmds')
-pyLDAvis.save_html(prepared_data, "LDA.html")
+pyLDAvis.save_html(prepared_data, "LDAnoStopwords.html")
